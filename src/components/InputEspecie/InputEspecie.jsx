@@ -7,12 +7,22 @@ const especies = [
   { name: "ivysaur", url: "https://pokeapi.co/api/v2/pokemon-species/2/" },
   { name: "venusaur", url: "https://pokeapi.co/api/v2/pokemon-species/3/" },
 ];
-
 const InputEspecie = ({ name, label }) => {
+  
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const { handleInputBlur } = useContext(ContextoFormulario);
-
-  const elegirEspecie = (e, nombreEspecie) => {
+  const [especiesOffset,setEspeciesOffset] = useState(0)
+  
+  const getPokemonEspecies = async () => {
+    const response = await fetch(
+      "https://pokeapi.co/api/v2/pokemon-species/?offset=20&limit=20"
+      );
+      const data = await response.json();
+      return data.results;
+    };
+    getPokemonEspecies().then(response => console.log(response))
+    
+    const elegirEspecie = (e, nombreEspecie) => {
     e.preventDefault();
 
     handleInputBlur("ACTUALIZAR_POKEMON", {
